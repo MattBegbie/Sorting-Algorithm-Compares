@@ -1,3 +1,7 @@
+/*Matt Begbie
+
+*/
+
 #include <iostream>
 #include <ctime>
 #include <stdio.h>
@@ -89,6 +93,26 @@ void MergeIt(int* unsorted, int left, int middle, int right){
     }
 }
 
+int nextGap(int gap){
+    gap = (gap*10)/13;
+
+    if (gap < 1){
+        gap = 1;
+    }
+
+    return gap;
+}
+
+int MattGap(int gap){
+    gap = gap-1;
+
+    if (gap < 1){
+        gap = 1;
+    }
+
+    return gap;
+}
+
 
 void SelectionSort(int* unsorted, int n){
     //int min = unsorted[0];
@@ -136,6 +160,44 @@ void QuickSort(int* unsorted, int low, int high){
         QuickSort(unsorted, pi + 1, high);
     }
 }
+void CombSort(int* unsorted, int n){
+    int gap = n;
+    bool swapped = true;
+
+    // Keep running while gap is more than 1 and last
+    // iteration caused a swap
+    while (gap != 1 || swapped == true) {
+        gap = nextGap(gap);
+         swapped = false;
+
+        // Compare all elements with current gap
+        for (int i=0; i<n-gap; i++) {
+            if (unsorted[i] > unsorted[i+gap]) {
+                changeP(&unsorted[i], &unsorted[i+gap]);
+                swapped = true;
+            }
+        }
+    }
+}
+void MattSort(int* unsorted, int n){
+    int gap = n;
+    bool swapped = true;
+
+    // Keep running while gap is more than 1 and last
+    // iteration caused a swap
+    while (gap != 1 || swapped == true) {
+        gap = MattGap(gap);
+         swapped = false;
+
+        // Compare all elements with current gap
+        for (int i=0; i<n-gap; i++) {
+            if (unsorted[i] > unsorted[i+gap]) {
+                changeP(&unsorted[i], &unsorted[i+gap]);
+                swapped = true;
+            }
+        }
+    }
+}
 
 void ReadTheTextFile(int* unsorted, int *n){
     cout << "unsorted" << endl;
@@ -143,7 +205,10 @@ void ReadTheTextFile(int* unsorted, int *n){
     //ifstream infile("data100.txt");  *n = 100;
     //ifstream infile("data1000.txt");  *n = 1000;
     //ifstream infile("data10000.txt");  *n = 10000;
-    ifstream infile("data100000.txt");  *n = 100000;
+    //ifstream infile("data100000.txt");  *n = 100000;
+    stringstream doc;
+    doc << "data" << *n << ".txt";
+    ifstream infile(doc.str());
     for (int x = 0; x < *n; x++){//do for the size of array
         infile >> unsorted[x];
         cout << unsorted[x] << "\t";
@@ -154,17 +219,41 @@ int main(){
 
     //array with the data
     int n = 0;
-    int unsorted[100000];
+    int sizeindex = 0;
+    int fsize[] = {10, 100, 1000, 10000, 100000};
+    int sortSel = 0;
+    //ask user for size
+    cout << "1. data10.txt \n2. data100.txt\n3. data1000.txt \n4. data10000.txt\n5. data100000.txt" << endl;
+    cout << "Please choose the text file to use (1-5): ";
+    cin >> sizeindex;
+    n = fsize[sizeindex - 1];
+    int unsorted[n];
+    //select sort
+    cout << "1. BubbleSort \n2. QuickSort \n3. MergeSort \n4. SelectionSort \n5. CombSort \n6. MattSort" << endl;
+    cout << "Please select a sort to use (1-6)";
+    cin >> sortSel;
     //read the file;
     ReadTheTextFile(unsorted, &n);
 
     clock_t begin = clock(); //start of clock
-
-    //BubbleSort(unsorted, n);
-    //QuickSort(unsorted, 0, n -1);
-    MergeSort(unsorted, 0, n -1);
-
-//    SelectionSort(unsorted, n);
+    if (sortSel == 1){
+        BubbleSort(unsorted, n); //31.087000000 seconds
+    }
+    else if (sortSel == 2) {
+        QuickSort(unsorted, 0, n -1); //0.018000000 seconds
+    }
+    else if (sortSel == 3) {
+    MergeSort(unsorted, 0, n -1); // 0.063 seconds
+    }
+    else if (sortSel == 4) {
+    SelectionSort(unsorted, n);//23 seconds
+    }
+    else if (sortSel == 5) {
+    CombSort(unsorted, n); // 0.029000000 seconds
+    }
+    else if (sortSel == 6) {
+    MattSort(unsorted, n); //12.019000000 seconds, this is just a bad combsort where instead of making the gap smaller by a factor, it shrinks by 1 each time
+    }
     clock_t end = clock(); //end of clock
     cout << endl << "sorted" << endl ;
     for (int x = 0; x < n; x++){
@@ -181,6 +270,8 @@ int main(){
     return 0;
 
 }
+
+
 
 
 
