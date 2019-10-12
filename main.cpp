@@ -26,7 +26,9 @@ void changeP(int *xp, int *yp){
     *yp = temp;
 
 }
+void PFlip(int* unsorted, int *f, int *j){
 
+}
 int Partition(int arr[], int low, int high){
     int pivot = arr[high]; // pivot
     int i = (low - 1); // Index of smaller element
@@ -44,7 +46,6 @@ int Partition(int arr[], int low, int high){
     return (i + 1);
 
 }
-
 void MergeIt(int* unsorted, int left, int middle, int right){
     int i, j, k = 0;
     int n1 = middle - left + 1;
@@ -92,7 +93,6 @@ void MergeIt(int* unsorted, int left, int middle, int right){
         k++;
     }
 }
-
 int nextGap(int gap){
     gap = (gap*10)/13;
 
@@ -102,18 +102,14 @@ int nextGap(int gap){
 
     return gap;
 }
-
 int MattGap(int gap){
     gap = gap-1;
 
     if (gap < 1){
         gap = 1;
     }
-
     return gap;
 }
-
-
 void SelectionSort(int* unsorted, int n){
     //int min = unsorted[0];
     int minIndex;
@@ -127,7 +123,6 @@ void SelectionSort(int* unsorted, int n){
           changeP(&unsorted[minIndex], &unsorted[i]);
     }
 }
-
 void BubbleSort(int* unsorted, int n){
     for (int i = 0; i <n-1; i++){
         for (int j = 0; j < n-i-1; j++){
@@ -137,7 +132,6 @@ void BubbleSort(int* unsorted, int n){
         }
     }
 }
-
 void  MergeSort(int* unsorted, int left, int right){
     if (left < right) {
         // Same as (l+r)/2, but avoids overflow for
@@ -151,7 +145,6 @@ void  MergeSort(int* unsorted, int left, int right){
         MergeIt(unsorted, left, middle, right);
     }
 }
-
 void QuickSort(int* unsorted, int low, int high){
     if (low < high){
         int pi = Partition(unsorted, low, high);
@@ -179,7 +172,6 @@ void CombSort(int* unsorted, int n){
         }
     }
 }
-
 void MattSort(int* unsorted, int n){
     int gap = n;
     bool swapped = true;
@@ -199,10 +191,8 @@ void MattSort(int* unsorted, int n){
         }
     }
 }
-
 void shellSort(int* unsorted, int n){
-  for (int gap = n / 2; gap > 0; gap /= 2)
-  {
+  for (int gap = n / 2; gap > 0; gap /= 2){
     for (int i = gap; i < n; i += 1){
       int temp = unsorted[i];
       int j;
@@ -213,7 +203,32 @@ void shellSort(int* unsorted, int n){
     }
   }
 }
-
+void PancakeSort(int* unsorted, int n){
+    //pancake steals from selection sort where it finds the largest then does the maththings
+    int bigIndex = 0;
+    for (int i = 0; i < n-1; i++){
+        //first find the largest
+        bigIndex = i;
+        for (int j = 0; j < n -i; j++){
+            if (unsorted[j] > unsorted[i]){
+                bigIndex = j;
+            }
+        }
+        //reverse all indexes from 0 to largest index so that it is at the top
+        //PFlip(unsorted, f, j);
+        int high = bigIndex;
+        for (int low = 0; low < bigIndex -1 ; low++){
+            changeP(&unsorted[high], &unsorted[low]);
+            high--;
+        }
+        //reverse all indexes until what is already sorted so that it is now at the bottom
+        high = (n - i);
+        for (int low = 0; low < bigIndex -1; low++){
+            changeP(&unsorted[high], &unsorted[low]);
+            high--;
+        }
+    }
+}
 
 
 void ReadTheTextFile(int* unsorted, int *n){
@@ -241,7 +256,7 @@ int main(){
     n = fsize[sizeindex - 1];
     int unsorted[n];
     //select sort
-    cout << "1. BubbleSort \n2. QuickSort \n3. MergeSort \n4. SelectionSort \n5. CombSort \n6. MattSort" << endl;
+    cout << "1. BubbleSort \n2. QuickSort \n3. MergeSort \n4. SelectionSort \n5. CombSort \n6. MattSort \n7. ShellSort" << endl;
     cout << "Please select a sort to use (1-6)";
     cin >> sortSel;
     //read the file;
@@ -266,8 +281,11 @@ int main(){
     else if (sortSel == 6) {
         MattSort(unsorted, n); //12.019000000 seconds, this is just a bad combsort where instead of making the gap smaller by a factor, it shrinks by 1 each time
     }
+    else if (sortSel == 7) {
+        shellSort(unsorted, n); // 0.023000000 seconds
+    }
     else if (sortSel == 8) {
-        shellSort(unsorted, n);
+        PancakeSort(unsorted, n);
     }
     else if (sortSel == 9) {
 
@@ -278,10 +296,7 @@ int main(){
     else if (sortSel == 11) {
 
     }
-    else if (sortSel == 12) {
-
-    }
-    else if (sortSel == 13) {
+    else if (sortSel == 12) { //placeholder so it is fast to copy/paste a new sort because i am lazy
 
     }
 
@@ -296,12 +311,5 @@ int main(){
     double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
     printf ("Elapsed time is %.9f seconds.", elapsed_secs );
 
-
     return 0;
-
 }
-
-
-
-
-
