@@ -179,6 +179,7 @@ void CombSort(int* unsorted, int n){
         }
     }
 }
+
 void MattSort(int* unsorted, int n){
     int gap = n;
     bool swapped = true;
@@ -199,13 +200,24 @@ void MattSort(int* unsorted, int n){
     }
 }
 
+void shellSort(int* unsorted, int n){
+  for (int gap = n / 2; gap > 0; gap /= 2)
+  {
+    for (int i = gap; i < n; i += 1){
+      int temp = unsorted[i];
+      int j;
+      for (j = i; j >= gap && unsorted[j - gap] > temp; j -= gap){
+        unsorted[j] = unsorted[j - gap];
+      }
+      unsorted[j] = temp;
+    }
+  }
+}
+
+
+
 void ReadTheTextFile(int* unsorted, int *n){
     cout << "unsorted" << endl;
-    //ifstream infile("data10.txt");  *n = 10;
-    //ifstream infile("data100.txt");  *n = 100;
-    //ifstream infile("data1000.txt");  *n = 1000;
-    //ifstream infile("data10000.txt");  *n = 10000;
-    //ifstream infile("data100000.txt");  *n = 100000;
     stringstream doc;
     doc << "data" << *n << ".txt";
     ifstream infile(doc.str());
@@ -243,22 +255,40 @@ int main(){
         QuickSort(unsorted, 0, n -1); //0.018000000 seconds
     }
     else if (sortSel == 3) {
-    MergeSort(unsorted, 0, n -1); // 0.063 seconds
+        MergeSort(unsorted, 0, n -1); // 0.063 seconds
     }
     else if (sortSel == 4) {
-    SelectionSort(unsorted, n);//23 seconds
+        SelectionSort(unsorted, n);//23 seconds
     }
     else if (sortSel == 5) {
-    CombSort(unsorted, n); // 0.029000000 seconds
+        CombSort(unsorted, n); // 0.029000000 seconds
     }
     else if (sortSel == 6) {
-    MattSort(unsorted, n); //12.019000000 seconds, this is just a bad combsort where instead of making the gap smaller by a factor, it shrinks by 1 each time
+        MattSort(unsorted, n); //12.019000000 seconds, this is just a bad combsort where instead of making the gap smaller by a factor, it shrinks by 1 each time
     }
+    else if (sortSel == 8) {
+        shellSort(unsorted, n);
+    }
+    else if (sortSel == 9) {
+
+    }
+    else if (sortSel == 10) {
+
+    }
+    else if (sortSel == 11) {
+
+    }
+    else if (sortSel == 12) {
+
+    }
+    else if (sortSel == 13) {
+
+    }
+
     clock_t end = clock(); //end of clock
     cout << endl << "sorted" << endl ;
     for (int x = 0; x < n; x++){
         cout << unsorted[x] << "\t";
-
     }
     cout << endl;
 
