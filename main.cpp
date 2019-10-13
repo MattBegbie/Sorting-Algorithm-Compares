@@ -207,33 +207,23 @@ void PancakeSort(int* unsorted, int n){
     int bigIndex = 0;
 
     for (int i = 0; i < n-1; i++){
-        //first find the largest
         bigIndex = 0;
         for (int j = 0; j < n - i; j++){
-            if (unsorted[0] < unsorted[j]){
+            if (unsorted[bigIndex] < unsorted[j]){
                 bigIndex = j;
             }
         }
-        cout << endl << bigIndex << " " << unsorted[bigIndex] << " n-i" << n-i;
-        //reverse all indexes from 0 to largest index so that it is at the top
-        //reverse(unsorted[0] to unsorted[high]);
         for (int low = 0, high = bigIndex; low < high ; low++, high--){
-            cout << high << low << " "; //output the two indexes which will switch
-            swap(unsorted[high], unsorted[low]);
+            changeP(&unsorted[high], &unsorted[low]);
         }
 
-        cout << endl << endl << endl << "step 1" << endl;
         for (int l = 0; l <n; l++){
-            cout << unsorted[l] << "\t";
         }
         //reverse all indexes until what is already sorted so that it is now at the bottom
         for (int low = 0, high = n-i-1; low < high; low++, high--){
-            cout << high << low << " "; //output the two indexes which will switch
-            swap(unsorted[high], unsorted[low]);
+            changeP(&unsorted[high], &unsorted[low]);
         }
-        cout << endl << "step 2" << endl;
         for (int l = 0; l <n; l++){
-            cout << unsorted[l] << "\t";
         }
     }
 }
