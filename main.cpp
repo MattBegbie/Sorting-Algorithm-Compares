@@ -208,13 +208,13 @@ void PancakeSort(int* unsorted, int n){
 
     for (int i = 0; i < n-1; i++){
         //first find the largest
-        bigIndex = i;
-        for (int j = 0; j < n -i; j++){
-            if (unsorted[j] > unsorted[i]){
+        bigIndex = 0;
+        for (int j = 0; j < n - i; j++){
+            if (unsorted[0] < unsorted[j]){
                 bigIndex = j;
             }
         }
-        cout << endl << bigIndex << " " << unsorted[bigIndex] << " ";
+        cout << endl << bigIndex << " " << unsorted[bigIndex] << " n-i" << n-i;
         //reverse all indexes from 0 to largest index so that it is at the top
         //reverse(unsorted[0] to unsorted[high]);
         for (int low = 0, high = bigIndex; low < high ; low++, high--){
