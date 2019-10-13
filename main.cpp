@@ -8,8 +8,8 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-
-
+#include <bits/stdc++.h>
+#include <algorithm>
 using namespace std;
 
 void FunctionToTime() {
@@ -204,8 +204,8 @@ void shellSort(int* unsorted, int n){
   }
 }
 void PancakeSort(int* unsorted, int n){
-    //pancake steals from selection sort where it finds the largest then does the maththings
     int bigIndex = 0;
+
     for (int i = 0; i < n-1; i++){
         //first find the largest
         bigIndex = i;
@@ -214,18 +214,26 @@ void PancakeSort(int* unsorted, int n){
                 bigIndex = j;
             }
         }
+        cout << endl << bigIndex << " " << unsorted[bigIndex] << " ";
         //reverse all indexes from 0 to largest index so that it is at the top
-        //PFlip(unsorted, f, j);
-        int high = bigIndex;
-        for (int low = 0; low < bigIndex -1 ; low++){
-            changeP(&unsorted[high], &unsorted[low]);
-            high--;
+        //reverse(unsorted[0] to unsorted[high]);
+        for (int low = 0, high = bigIndex; low < high ; low++, high--){
+            cout << high << low << " "; //output the two indexes which will switch
+            swap(unsorted[high], unsorted[low]);
+        }
+
+        cout << endl << endl << endl << "step 1" << endl;
+        for (int l = 0; l <n; l++){
+            cout << unsorted[l] << "\t";
         }
         //reverse all indexes until what is already sorted so that it is now at the bottom
-        high = (n - i);
-        for (int low = 0; low < bigIndex -1; low++){
-            changeP(&unsorted[high], &unsorted[low]);
-            high--;
+        for (int low = 0, high = n-i-1; low < high; low++, high--){
+            cout << high << low << " "; //output the two indexes which will switch
+            swap(unsorted[high], unsorted[low]);
+        }
+        cout << endl << "step 2" << endl;
+        for (int l = 0; l <n; l++){
+            cout << unsorted[l] << "\t";
         }
     }
 }
@@ -256,7 +264,7 @@ int main(){
     n = fsize[sizeindex - 1];
     int unsorted[n];
     //select sort
-    cout << "1. BubbleSort \n2. QuickSort \n3. MergeSort \n4. SelectionSort \n5. CombSort \n6. MattSort \n7. ShellSort" << endl;
+    cout << "1. BubbleSort \n2. QuickSort \n3. MergeSort \n4. SelectionSort \n5. CombSort \n6. MattSort \n7. ShellSort \n8. PancakeSort" << endl;
     cout << "Please select a sort to use (1-6)";
     cin >> sortSel;
     //read the file;
