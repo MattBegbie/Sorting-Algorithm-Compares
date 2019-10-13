@@ -1,5 +1,6 @@
 /*Matt Begbie
-
+    each sort has a time  attached to it for the 10000000000000 size file
+    most sorts only require the size and the actual array, however the recursive ones require a high and low to know where to start/stop in the current call of the function  ex. 'bubblesort(array[], size);' & 'QuickSort(unsorted, 0, n -1);'
 */
 
 #include <iostream>
@@ -110,6 +111,8 @@ int MattGap(int gap){
     }
     return gap;
 }
+
+
 void SelectionSort(int* unsorted, int n){
     //int min = unsorted[0];
     int minIndex;
@@ -219,7 +222,6 @@ void PancakeSort(int* unsorted, int n){
 
         for (int l = 0; l <n; l++){
         }
-        //reverse all indexes until what is already sorted so that it is now at the bottom
         for (int low = 0, high = n-i-1; low < high; low++, high--){
             changeP(&unsorted[high], &unsorted[low]);
         }
@@ -255,7 +257,7 @@ int main(){
     int unsorted[n];
     //select sort
     cout << "1. BubbleSort \n2. QuickSort \n3. MergeSort \n4. SelectionSort \n5. CombSort \n6. MattSort \n7. ShellSort \n8. PancakeSort" << endl;
-    cout << "Please select a sort to use (1-6)";
+    cout << "Please select a sort to use (1-8)";
     cin >> sortSel;
     //read the file;
     ReadTheTextFile(unsorted, &n);
@@ -283,7 +285,7 @@ int main(){
         shellSort(unsorted, n); // 0.023000000 seconds
     }
     else if (sortSel == 8) {
-        PancakeSort(unsorted, n);
+        PancakeSort(unsorted, n); // 67.481000000 seconds
     }
     else if (sortSel == 9) {
 
