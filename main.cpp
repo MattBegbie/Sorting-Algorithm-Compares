@@ -209,8 +209,8 @@ void PancakeSort(int* unsorted, int n){
     for (int i = 0; i < n-1; i++){
         //first find the largest
         bigIndex = 0;
-        for (int j = 0; j < n - i; j++){
-            if (unsorted[0] < unsorted[j]){
+        for (int j = 0; j < n - i; j++){ //i believe it must be in here
+            if (unsorted[bigIndex] < unsorted[j]){
                 bigIndex = j;
             }
         }
