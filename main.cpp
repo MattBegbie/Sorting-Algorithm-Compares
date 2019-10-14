@@ -267,7 +267,7 @@ int main(){
         BubbleSort(unsorted, n); //31.087000000 seconds
     }
     else if (sortSel == 2) {
-        QuickSort(unsorted, 0, n -1); //0.018000000 seconds
+        QuickSort(unsorted, 0, n -1); //0.01.8000000 seconds
     }
     else if (sortSel == 3) {
         MergeSort(unsorted, 0, n -1); // 0.063 seconds
