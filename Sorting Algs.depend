@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1570947061 source:c:\users\matt\documents\github\sorting-algorithm-compares\main.cpp
+	<iostream>
+	<ctime>
+	<stdio.h>
+	<string>
+	<fstream>
+	<sstream>
+	<bits/stdc++.h>
+	<algorithm>
+

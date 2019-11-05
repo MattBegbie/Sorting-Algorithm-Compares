@@ -1,0 +1,31 @@
+# depslib dependency file v1.0
+1571241726 source:\\dfs-student3\home3\mbegbie6866\documents\sortsuffs\main.cpp
+	<iostream>
+	<ctime>
+	<stdio.h>
+	<string>
+	<fstream>
+	<sstream>
+	<bits/stdc++.h>
+	<algorithm>
+
+1572624132 source:h:\documents\sortsuffs\main.cpp
+	<iostream>
+	<ctime>
+	<stdio.h>
+	<string>
+	<fstream>
+	<sstream>
+	<bits/stdc++.h>
+	<algorithm>
+
+1572620534 source:c:\users\matt\downloads\sortsuffs\sortsuffs\main.cpp
+	<iostream>
+	<ctime>
+	<stdio.h>
+	<string>
+	<fstream>
+	<sstream>
+	<bits/stdc++.h>
+	<algorithm>
+

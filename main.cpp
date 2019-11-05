@@ -30,13 +30,14 @@ void changeP(int *xp, int *yp){
 void PFlip(int* unsorted, int *f, int *j){
 
 }
-int Partition(int arr[], int low, int high){
+int Partition(int arr[], int low, int high, int *comparisons){
     int pivot = arr[high]; // pivot
     int i = (low - 1); // Index of smaller element
 
     for (int j = low; j <= high - 1; j++)
     {
         // If current element is smaller than the pivot
+        *comparisons =  *comparisons + 1;
         if (arr[j] < pivot)
         {
             i++; // increment index of smaller element
@@ -113,12 +114,13 @@ int MattGap(int gap){
 }
 
 
-void SelectionSort(int* unsorted, int n){
+void SelectionSort(int* unsorted, int n, int *comparisons){
     //int min = unsorted[0];
     int minIndex;
     for (int i = 0; i < n-1; i++){
         minIndex = i;
         for (int j = i+1; j < n; j++){
+            *comparisons =  *comparisons + 1;
             if (unsorted[j] < unsorted[minIndex]){
                 minIndex = j;
             }
@@ -126,37 +128,37 @@ void SelectionSort(int* unsorted, int n){
           changeP(&unsorted[minIndex], &unsorted[i]);
     }
 }
-void BubbleSort(int* unsorted, int n){
+void BubbleSort(int* unsorted, int n, int *comparisons){
     for (int i = 0; i <n-1; i++){
         for (int j = 0; j < n-i-1; j++){
+            *comparisons =  *comparisons + 1;
             if (unsorted[j] > unsorted[j+1]){
                 changeP(&unsorted[j], &unsorted[j+1]);
             }
         }
     }
 }
-void  MergeSort(int* unsorted, int left, int right){
+void  MergeSort(int* unsorted, int left, int right, int *comparisons){
     if (left < right) {
         // Same as (l+r)/2, but avoids overflow for
         // large l and h
         int middle = left+(right-left)/2;
 
         // Sort first and second halves
-        MergeSort(unsorted, left, middle);
-        MergeSort(unsorted, middle+1, right);
+        MergeSort(unsorted, left, middle, *&comparisons);
+        MergeSort(unsorted, middle+1, right, *&comparisons);
 
         MergeIt(unsorted, left, middle, right);
     }
 }
-void QuickSort(int* unsorted, int low, int high){
+void QuickSort(int* unsorted, int low, int high, int *comparisons){
     if (low < high){
-        int pi = Partition(unsorted, low, high);
-
-        QuickSort(unsorted, low, pi - 1);
-        QuickSort(unsorted, pi + 1, high);
+        int pi = Partition(unsorted, low, high, comparisons);
+        QuickSort(unsorted, low, pi - 1, comparisons);
+        QuickSort(unsorted, pi + 1, high, comparisons);
     }
 }
-void CombSort(int* unsorted, int n){
+void CombSort(int* unsorted, int n, int *comparisons){
     int gap = n;
     bool swapped = true;
 
@@ -175,7 +177,7 @@ void CombSort(int* unsorted, int n){
         }
     }
 }
-void MattSort(int* unsorted, int n){
+void MattSort(int* unsorted, int n, int *comparisons){
     int gap = n;
     bool swapped = true;
 
@@ -194,7 +196,7 @@ void MattSort(int* unsorted, int n){
         }
     }
 }
-void shellSort(int* unsorted, int n){
+void shellSort(int* unsorted, int n, int *comparisons){
   for (int gap = n / 2; gap > 0; gap /= 2){
     for (int i = gap; i < n; i += 1){
       int temp = unsorted[i];
@@ -206,7 +208,7 @@ void shellSort(int* unsorted, int n){
     }
   }
 }
-void PancakeSort(int* unsorted, int n){
+void PancakeSort(int* unsorted, int n, int *comparisons){
     int bigIndex = 0;
 
     for (int i = 0; i < n-1; i++){
@@ -231,30 +233,35 @@ void PancakeSort(int* unsorted, int n){
 }
 
 
-void ReadTheTextFile(int* unsorted, int *n){
+void ReadTheTextFile(int* unsorted, unsigned long *n){
     cout << "unsorted" << endl;
     stringstream doc;
     doc << "data" << *n << ".txt";
     ifstream infile(doc.str());
-    for (int x = 0; x < *n; x++){//do for the size of array
+    cout<<doc.str()<<endl;
+    for (unsigned long x = 0; x < *n; x++){//do for the size of array
         infile >> unsorted[x];
-        cout << unsorted[x] << "\t";
+        //cout <<x<<"="<< unsorted[x] << "\t";
     }
     infile.close();
 }
 int main(){
 
     //array with the data
-    int n = 0;
+    unsigned long n = 0;
     int sizeindex = 0;
-    int fsize[] = {10, 100, 1000, 10000, 100000};
+    int fsize[] = {10, 100, 1000, 10000, 100000, 1000000, 10000000};
     int sortSel = 0;
+    int comparisons = 0;
     //ask user for size
-    cout << "1. data10.txt \n2. data100.txt\n3. data1000.txt \n4. data10000.txt\n5. data100000.txt" << endl;
+    cout << "1. data10.txt \n2. data100.txt\n3. data1000.txt \n4. data10000.txt\n5. data100000.txt\n6. data1000000.txt\n7. data10000000.txt" << endl;
     cout << "Please choose the text file to use (1-5): ";
     cin >> sizeindex;
     n = fsize[sizeindex - 1];
-    int unsorted[n];
+
+
+
+    int* unsorted= new int [n];
     //select sort
     cout << "1. BubbleSort \n2. QuickSort \n3. MergeSort \n4. SelectionSort \n5. CombSort \n6. MattSort \n7. ShellSort \n8. PancakeSort" << endl;
     cout << "Please select a sort to use (1-8)";
@@ -264,31 +271,33 @@ int main(){
 
     clock_t begin = clock(); //start of clock
     if (sortSel == 1){
-        BubbleSort(unsorted, n); //31.087000000 seconds
+        BubbleSort(unsorted, n, &comparisons); //31.087000000 seconds
+        //comparisons = n(n - 1)/2
     }
     else if (sortSel == 2) {
-        QuickSort(unsorted, 0, n -1); //0.01.8000000 seconds
+        QuickSort(unsorted, 0, n -1, &comparisons); //0.01.8000000 seconds
     }
     else if (sortSel == 3) {
-        MergeSort(unsorted, 0, n -1); // 0.063 seconds
+        MergeSort(unsorted, 0, n -1, &comparisons); // 0.063 seconds
     }
     else if (sortSel == 4) {
-        SelectionSort(unsorted, n);//23 seconds
+        SelectionSort(unsorted, n, &comparisons);//23 seconds
     }
     else if (sortSel == 5) {
-        CombSort(unsorted, n); // 0.029000000 seconds
+        CombSort(unsorted, n, &comparisons); // 0.029000000 seconds
     }
     else if (sortSel == 6) {
-        MattSort(unsorted, n); //12.019000000 seconds, this is just a bad combsort where instead of making the gap smaller by a factor, it shrinks by 1 each time
+        MattSort(unsorted, n, &comparisons); //12.019000000 seconds, this is just a bad combsort where instead of making the gap smaller by a factor, it shrinks by 1 each time
     }
     else if (sortSel == 7) {
-        shellSort(unsorted, n); // 0.023000000 seconds
+        shellSort(unsorted, n, &comparisons); // 0.023000000 seconds
     }
     else if (sortSel == 8) {
-        PancakeSort(unsorted, n); // 67.481000000 seconds
+        PancakeSort(unsorted, n, &comparisons); // 67.481000000 seconds with home pc, 83.644000000 with school
     }
     else if (sortSel == 9) {
-
+        //if pancake sort uses selection sort to find the highest number, can a new sort be used as a base with the same permutations?
+        //this is an attempt with quicksort0.663000000
     }
     else if (sortSel == 10) {
 
@@ -303,13 +312,16 @@ int main(){
     clock_t end = clock(); //end of clock
     cout << endl << "sorted" << endl ;
     for (int x = 0; x < n; x++){
-        cout << unsorted[x] << "\t";
+        //cout << unsorted[x] << "\t";
     }
     cout << endl;
 
     //timiming stuff
     double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
     printf ("Elapsed time is %.9f seconds.", elapsed_secs );
-
+    cout << endl << endl << "Comparisons:" << comparisons;
     return 0;
 }
+
+
+
